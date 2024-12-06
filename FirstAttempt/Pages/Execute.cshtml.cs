@@ -32,8 +32,8 @@ namespace FirstAttempt.Pages
                     },
                     Steps = new List<Step>
                     {
-                        new() { Id = 1, Title = "Prepare Ingredients", Description = "Grate the cheese and cut the guanciale into small cubes.", Duration = 5,  Images = new List<string> { "/images/supermarket.jpg", "/images/nodata.jpg", "/images/cheese.jpg" }  },
-                        new() { Id = 2, Title = "Cook Pasta", Description = "Boil the pasta in salted water according to package instructions.", Duration = 10,  Images = new List<string> { "/images/supermarket.jpg", "/images/nodata.jpg", "/images/cheese.jpg" }  },
+                        new() { Id = 1, Title = "Prepare Ingredients", Description = "Grate the cheese and cut the guanciale into small cubes.", Duration = 5,  Images = new List<string> { "/images/supermarket.jpg", "/images/supermarket.jpg", "/images/cheese.jpg" }  },
+                        new() { Id = 2, Title = "Cook Pasta", Description = "Boil the pasta in salted water according to package instructions.", Duration = 10,  Images = new List<string> { "/images/nodata.jpg", "/images/nodata.jpg", "/images/cheese.jpg" }  },
                         new() { Id = 3, Title = "Prepare Sauce", Description = "Mix eggs, cheese, and black pepper in a bowl.", Duration = 5, Images = new List<string> { "/images/supermarket.jpg", "/images/nodata.jpg", "/images/cheese.jpg" }  },
                     }
                 },
@@ -52,8 +52,8 @@ namespace FirstAttempt.Pages
                     },
                     Steps = new List<Step>
                     {
-                        new() { Id = 1, Title = "Prepare Dough", Description = "Roll out the pizza dough.", Duration = 5,Images = new List<string> { "/images/supermarket.jpg", "/images/nodata.jpg", "/images/cheese.jpg" }  },
-                        new() { Id = 2, Title = "Add Toppings", Description = "Spread tomato sauce and sprinkle cheese.", Duration = 5,Images = new List<string> { "/images/supermarket.jpg", "/images/nodata.jpg", "/images/cheese.jpg" }  },
+                        new() { Id = 1, Title = "Prepare Dough", Description = "Roll out the pizza dough.", Duration = 5,Images = new List<string> { "/images/supermarket.jpg", "/images/supermarket.jpg", "/images/cheese.jpg" }  },
+                        new() { Id = 2, Title = "Add Toppings", Description = "Spread tomato sauce and sprinkle cheese.", Duration = 5,Images = new List<string> { "/images/nodata.jpg", "/images/nodata.jpg", "/images/cheese.jpg" }  },
                         new() { Id = 3, Title = "Bake", Description = "Bake the pizza in a preheated oven at 220°C for 12-15 minutes.", Duration = 15,Images = new List<string> { "/images/supermarket.jpg", "/images/nodata.jpg", "/images/cheese.jpg" }  },
                     }
                 }

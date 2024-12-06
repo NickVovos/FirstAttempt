@@ -49,9 +49,9 @@
             @if (Model.CurrentStep.Images.Any())
             {
                 <div class="image-container">
-                    <button class="btn btn-light" id="prevImageBtn" onclick="changeImage(-1)" style="background-color:#ffc107">←</button>
+                    <button class="btn btn-light pr-2" id="prevImageBtn" onclick="changeImage(-1)" style="background-color:#ffc107; margin-right: 30px;">←</button>
                     <img id="stepImage" class="w-full h-64 object-cover" style="width: calc(100%); min-width:600px; border-radius: 15px; border-image: round; max-width:1000px" src="@Model.CurrentStep.Images[0]" alt="@Model.CurrentStep.Title" />
-                    <button class="btn btn-light" id="nextImageBtn" onclick="changeImage(1)" style="background-color:#ffc107">→</button>
+                    <button class="btn btn-light pl-2" id="nextImageBtn" onclick="changeImage(1)" style="background-color:#ffc107; margin-left: 30px;">→</button>
                 </div>
             }
             <p class="text-lg mt-4">@Model.CurrentStep.Description</p>
@@ -61,12 +61,13 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-between pt-4">
+    <div class="pt-4">
         <button class="btn btn-warning" onclick="window.location.href='?recipeId=@Model.SelectedRecipeId&step=@(Model.CurrentStepIndex - 1)'"
         @(Model.CurrentStepIndex == 1 ? "disabled" : "")>
             <span class="mr-2 h-4 w-4">←</span>
             Previous Step
         </button>
+        <span class="mx-5"></span>
         <button class="btn btn-warning" onclick="window.location.href='?recipeId=@Model.SelectedRecipeId&step=@(Model.CurrentStepIndex + 1)'"
         @(Model.CurrentStepIndex == Model.Recipe.Steps.Count ? "disabled" : "")>
             Next Step
