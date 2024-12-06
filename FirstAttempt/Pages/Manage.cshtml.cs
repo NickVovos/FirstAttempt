@@ -13,16 +13,10 @@ namespace FirstAttempt.Pages
             Title = "Spaghetti Carbonara",
             Category = "Main",
             Description = "A classic Italian pasta dish.",
-            Ingredients = new List<Ingredient>
-            {
-                new Ingredient { Id = 1, Name = "Spaghetti", Quantity = "200g" },
-                new Ingredient { Id = 2, Name = "Eggs", Quantity = "2" },
-                new Ingredient { Id = 3, Name = "Parmesan Cheese", Quantity = "50g" }
-            },
             Steps = new List<Step>
             {
-                new Step { Id = 1, Title = "Boil Pasta", Description = "Cook the spaghetti in salted water.", Duration = 10, Images = null },
-                new Step { Id = 2, Title = "Prepare Sauce", Description = "Mix eggs and Parmesan cheese.", Duration = 5, Images = null }
+                new Step { Id = 1, Title = "Boil Pasta", Description = "Cook the spaghetti in salted water.", Duration = 10, Images = null, Ingredients = null },
+                new Step { Id = 2, Title = "Prepare Sauce", Description = "Mix eggs and Parmesan cheese.", Duration = 5, Images = null, Ingredients = null }
             }
         }
     };

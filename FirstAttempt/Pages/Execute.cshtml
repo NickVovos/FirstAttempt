@@ -50,11 +50,35 @@
             {
                 <div class="image-container">
                     <button class="btn btn-light pr-2" id="prevImageBtn" onclick="changeImage(-1)" style="background-color:#ffc107; margin-right: 30px;">←</button>
-                    <img id="stepImage" class="w-full h-64 object-cover" style="width: calc(100%); min-width:600px; border-radius: 15px; border-image: round; max-width:1000px" src="@Model.CurrentStep.Images[0]" alt="@Model.CurrentStep.Title" />
+                    <img id="stepImage" class="w-full h-64 object-cover" style="width: calc(100%); min-width:600px; border-radius: 15px; border-image: round; max-width:850px;" src="@Model.CurrentStep.Images[0]" alt="@Model.CurrentStep.Title" />
                     <button class="btn btn-light pl-2" id="nextImageBtn" onclick="changeImage(1)" style="background-color:#ffc107; margin-left: 30px;">→</button>
                 </div>
             }
             <p class="text-lg mt-4">@Model.CurrentStep.Description</p>
+
+            @if (Model.CurrentStep.Ingredients != null && Model.CurrentStep.Ingredients.Any())
+            {
+                <h4>Ingredients for this step:</h4>
+                <div class="d-flex">
+                    <div class="" style="width:300px;">
+                        <ul>
+                            @foreach (var ingredient in Model.CurrentStep.Ingredients.Take(4)) // First 4 items on the left
+                            {
+                                <li>@ingredient.Name - @ingredient.Quantity</li>
+                            }
+                        </ul>
+                    </div>
+                    <div style="width:300px;">
+                        <ul>
+                            @foreach (var ingredient in Model.CurrentStep.Ingredients.Skip(4)) // Remaining items on the right
+                            {
+                                <li>@ingredient.Name - @ingredient.Quantity</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+
             <div class="d-flex items-center justify-between text-sm text-muted-foreground">
                 <span style="font-size:14px; color:gray">Duration: @Model.CurrentStep.Duration minutes</span>
             </div>
