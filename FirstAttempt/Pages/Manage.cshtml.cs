@@ -21,8 +21,8 @@ namespace FirstAttempt.Pages
             },
             Steps = new List<Step>
             {
-                new Step { Id = 1, Title = "Boil Pasta", Description = "Cook the spaghetti in salted water.", Duration = 10, Image = "" },
-                new Step { Id = 2, Title = "Prepare Sauce", Description = "Mix eggs and Parmesan cheese.", Duration = 5, Image = "" }
+                new Step { Id = 1, Title = "Boil Pasta", Description = "Cook the spaghetti in salted water.", Duration = 10, Images = null },
+                new Step { Id = 2, Title = "Prepare Sauce", Description = "Mix eggs and Parmesan cheese.", Duration = 5, Images = null }
             }
         }
     };
