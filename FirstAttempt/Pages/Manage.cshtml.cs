@@ -1,10 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FirstAttempt.Pages
 {
     public class ManageModel : PageModel
     {
+        public List<SelectListItem> CategoryOptions { get; set; } = new List<SelectListItem>
+{
+    new SelectListItem { Value = "all", Text = "All Categories" },
+    new SelectListItem { Value = "Main", Text = "Main" },
+    new SelectListItem { Value = "Dessert", Text = "Dessert" },
+    new SelectListItem { Value = "Appetizer", Text = "Appetizer" },
+    new SelectListItem { Value = "Beverage", Text = "Beverage" },
+    new SelectListItem { Value = "new", Text = "Add New Category" } // New Item option
+};
+        [BindProperty]
+        public string NewCategoryName { get; set; } = string.Empty;
+
+        public IActionResult OnPostNewCategory(string? NewCategoryName)
+        {
+            if (!string.IsNullOrWhiteSpace(NewCategoryName))
+            {
+                // Add the new category to the list
+                CategoryOptions.Insert(CategoryOptions.Count - 1, new SelectListItem { Value = NewCategoryName, Text = NewCategoryName });
+                CategoryFilter = NewCategoryName; // Set the newly added category as the selected filter
+            }
+            return Page();
+        }
+
         public List<Recipe> Recipes { get; set; } = new List<Recipe>
     {
         new Recipe

@@ -4,7 +4,96 @@
 }
 @using Microsoft.AspNetCore.Mvc.Rendering
 
+<style>
+    /* Class to hide the select */
+    .visibility-hidden {
+        /*  display: none !important; */
+        visibility: hidden !important;
+    }
+</style>
 
+<div class="relative w-full md:w-1/4 space-y-2">
+    <!-- Styled input box for searching -->
+    <input type="text"
+           id="CategorySearch"
+           class="input w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
+           placeholder="Search categories..."
+           oninput="filterDropdown()"
+           style="width:200px" />
+
+    <!-- Custom-styled dropdown -->
+    <div id="DropdownContainer" class="dropdown-container bg-white border rounded-lg shadow-md overflow-hidden hidden visibility-hidden" style="width:200px">
+        <select id="CategoryFilter"
+                class="select w-full h-auto border-0 focus:outline-none"
+                size="5"
+                onchange="handleCategoryChange(this)"
+                style="width:200px">
+            @Html.Raw(string.Join("", Model.CategoryOptions.Select(option =>
+                     $"<option value='{option.Value}' {(option.Value == Model.CategoryFilter ? "selected" : "")}>{option.Text}</option>"
+                     )))
+        </select>
+    </div>
+</div>
+asdfads
+<script>
+    const searchInput = document.getElementById('CategorySearch');
+    const dropdownContainer = document.getElementById('DropdownContainer');
+    const parentDiv = document.querySelector('.relative.w-full.md\\:w-1\\/4.space-y-2'); // Parent div selector
+
+    /**
+     * Show dropdown when input is focused
+     */
+    searchInput.addEventListener('focus', () => {
+        dropdownContainer.classList.remove('visibility-hidden');
+        dropdownContainer.classList.remove('hidden');
+    });
+
+    /**
+     * Hide dropdown when clicking outside of the parent div
+     */
+    document.addEventListener('click', (event) => {
+        if (!parentDiv.contains(event.target)) {
+            dropdownContainer.classList.add('visibility-hidden');
+        }
+    });
+
+    /**
+     * Dynamically filter dropdown options based on input
+     */
+    function filterDropdown() {
+        const query = searchInput.value.toLowerCase();
+        const options = document.getElementById('CategoryFilter').options;
+
+        for (let i = 0; i < options.length; i++) {
+            const optionText = options[i].text.toLowerCase();
+            options[i].style.display = optionText.includes(query) ? "" : "none";
+        }
+    }
+
+    /**
+     * Handle dropdown change
+     */
+    function handleCategoryChange(select) {
+        const selectedText = select.options[select.selectedIndex].text;
+        const selectedValue = select.value;
+
+        if (selectedValue === "new") {
+            const newCategory = prompt("Enter the new category:");
+            if (newCategory) {
+                const newOption = new Option(newCategory, newCategory);
+                select.add(newOption, select.options.length - 1);
+                select.value = newCategory;
+                searchInput.value = newCategory; // Update input value
+            }
+        } else {
+            searchInput.value = selectedText;
+        }
+
+        dropdownContainer.classList.add('visibility-hidden');
+    }
+</script>
+
+@* 
 <div class="space-y-6">
     <form method="post">
         <div class="flex flex-col md:flex-row gap-4">
@@ -71,4 +160,4 @@
             </div>
         </div>
     }
-</div>
+</div> *@
