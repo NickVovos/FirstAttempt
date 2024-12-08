@@ -4,108 +4,32 @@
 }
 @using Microsoft.AspNetCore.Mvc.Rendering
 
-<style>
-    /* Class to hide the select */
-    .visibility-hidden {
-        /*  display: none !important; */
-        visibility: hidden !important;
-    }
-</style>
+<!-- Include Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-<div class="relative w-full md:w-1/4 space-y-2">
-    <!-- Styled input box for searching -->
-    <input type="text"
-           id="CategorySearch"
-           class="input w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
-           placeholder="Search categories..."
-           oninput="filterDropdown()"
-           style="width:200px" />
+<div class="container mt-4">
 
-    <!-- Custom-styled dropdown -->
-    <div id="DropdownContainer" class="dropdown-container bg-white border rounded-lg shadow-md overflow-hidden hidden visibility-hidden" style="width:200px">
-        <select id="CategoryFilter"
-                class="select w-full h-auto border-0 focus:outline-none"
-                size="5"
-                onchange="handleCategoryChange(this)"
-                style="width:200px">
-            @Html.Raw(string.Join("", Model.CategoryOptions.Select(option =>
-                     $"<option value='{option.Value}' {(option.Value == Model.CategoryFilter ? "selected" : "")}>{option.Text}</option>"
-                     )))
-        </select>
+    <!-- Page Heading -->
+    <div class="text-center mb-4">
+        <h1 class="">Recipe Management Dashboard</h1>
+        <p class="text-muted">Manage, search, and organize your favorite recipes seamlessly with our intuitive interface.</p>
     </div>
-</div>
-asdfads
-<script>
-    const searchInput = document.getElementById('CategorySearch');
-    const dropdownContainer = document.getElementById('DropdownContainer');
-    const parentDiv = document.querySelector('.relative.w-full.md\\:w-1\\/4.space-y-2'); // Parent div selector
 
-    /**
-     * Show dropdown when input is focused
-     */
-    searchInput.addEventListener('focus', () => {
-        dropdownContainer.classList.remove('visibility-hidden');
-        dropdownContainer.classList.remove('hidden');
-    });
-
-    /**
-     * Hide dropdown when clicking outside of the parent div
-     */
-    document.addEventListener('click', (event) => {
-        if (!parentDiv.contains(event.target)) {
-            dropdownContainer.classList.add('visibility-hidden');
-        }
-    });
-
-    /**
-     * Dynamically filter dropdown options based on input
-     */
-    function filterDropdown() {
-        const query = searchInput.value.toLowerCase();
-        const options = document.getElementById('CategoryFilter').options;
-
-        for (let i = 0; i < options.length; i++) {
-            const optionText = options[i].text.toLowerCase();
-            options[i].style.display = optionText.includes(query) ? "" : "none";
-        }
-    }
-
-    /**
-     * Handle dropdown change
-     */
-    function handleCategoryChange(select) {
-        const selectedText = select.options[select.selectedIndex].text;
-        const selectedValue = select.value;
-
-        if (selectedValue === "new") {
-            const newCategory = prompt("Enter the new category:");
-            if (newCategory) {
-                const newOption = new Option(newCategory, newCategory);
-                select.add(newOption, select.options.length - 1);
-                select.value = newCategory;
-                searchInput.value = newCategory; // Update input value
-            }
-        } else {
-            searchInput.value = selectedText;
-        }
-
-        dropdownContainer.classList.add('visibility-hidden');
-    }
-</script>
-
-@* 
-<div class="space-y-6">
-    <form method="post">
-        <div class="flex flex-col md:flex-row gap-4">
+    <!-- Search & Filter Section -->
+    <div class="row mb-4 search-container">
+        <form method="post" class="form-inline w-100 justify-content-between">
             <input type="text"
+                   style="background-color:white;"
                    name="SearchTerm"
-                   class="input md:w-1/3"
-                   placeholder="Search recipes..."
+                   class="form-control col-md-4 mr-2"
+                   placeholder="Search recipes by title, ingredient, or description..."
                    value="@Model.SearchTerm" />
 
             <select name="CategoryFilter"
-                    class="select md:w-1/4"
-                    value="@Model.CategoryFilter">
+                    class="form-control col-md-3"
+                    value="@Model.CategoryFilter"
+                    style="background-color:white;">
                 <option value="all">All Categories</option>
                 <option value="Main">Main</option>
                 <option value="Dessert">Dessert</option>
@@ -113,51 +37,91 @@ asdfads
                 <option value="Beverage">Beverage</option>
             </select>
 
-            <button type="submit" class="btn">Filter</button>
+            <button type="submit" class="btn btn-warning col-md-2">Filter Recipes</button>
+        </form>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container mb-4">
+        <h3 class="mb-3">Recipe List</h3>
+        <p class=" mb-3">Below are your filtered recipes. You can view details, modify, or delete them directly.</p>
+        <!-- Scrollable container for recipe list -->
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered table-hover" style="background-color:white;">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Recipe Title</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var recipe in Model.FilteredRecipes)
+                    {
+                        <tr>
+                            <td>@recipe.Title</td>
+                            <td>@recipe.Category</td>
+                            <td>@recipe.Description</td>
+                            <td class="text-right">
+                                <form method="post" class="d-inline-block">
+                                    <input type="hidden" name="RecipeId" value="@recipe.Id" />
+                                    <button type="submit" name="action" value="View" class="btn btn-outline-primary btn-sm">View</button>
+                                    <button type="submit" name="action" value="Modify" class="btn btn-outline-secondary btn-sm">Modify</button>
+                                    <button type="submit" name="action" value="Delete" class="btn btn-outline-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-    </form>
+    </div>
 
-    <table class="table-auto w-full">
-        <thead>
-            <tr>
-                <th>Recipe Title</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th class="text-right">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var recipe in Model.FilteredRecipes)
-            {
-                <tr>
-                    <td>@recipe.Title</td>
-                    <td>@recipe.Category</td>
-                    <td>@recipe.Description</td>
-                    <td class="text-right">
-                        <form method="post">
-                            <input type="hidden" name="RecipeId" value="@recipe.Id" />
-                            <button type="submit" name="action" value="View" class="btn btn-outline">View</button>
-                            <button type="submit" name="action" value="Modify" class="btn btn-outline">Modify</button>
-                            <button type="submit" name="action" value="Delete" class="btn btn-outline">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <!-- Instructions Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="text-dark">How to Use This Dashboard</h4>
+            <ul>
+                <li><strong>Search for Recipes:</strong> Use the search bar to quickly locate a recipe by title, description, or ingredient name.</li>
+                <li><strong>Filter by Category:</strong> Use the dropdown menu to focus on a specific category of recipes.</li>
+                <li><strong>View Recipe Details:</strong> Click the <span class="btn btn-outline-primary btn-sm">View</span> button to see more details about a recipe.</li>
+                <li><strong>Modify or Update:</strong> Edit recipe details with the <span class="btn btn-outline-secondary btn-sm">Modify</span> button.</li>
+                <li><strong>Delete Recipes:</strong> Remove a recipe you no longer need by clicking the <span class="btn btn-outline-danger btn-sm">Delete</span> button.</li>
+            </ul>
+        </div>
+    </div>
 
+    <!-- Modal Section for Delete Confirmation -->
     @if (Model.RecipeToDelete != null)
     {
-        <div class="modal">
-            <div class="modal-content">
-                <h2>Delete Recipe</h2>
-                <p>Are you sure you want to delete "@Model.RecipeToDelete.Title"? This action cannot be undone.</p>
-                <form method="post">
-                    <input type="hidden" name="DeleteRecipeId" value="@Model.RecipeToDelete.Id" />
-                    <button type="submit" name="action" value="Cancel" class="btn">Cancel</button>
-                    <button type="submit" name="action" value="ConfirmDelete" class="btn btn-danger">Delete</button>
-                </form>
+        <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background: rgba(0,0,0,0.5);">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Recipe</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload();">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete "@Model.RecipeToDelete.Title"? This action cannot be undone.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="post" class="w-100">
+                            <input type="hidden" name="DeleteRecipeId" value="@Model.RecipeToDelete.Id" />
+                            <button type="submit" name="action" value="Cancel" class="btn btn-secondary">Cancel</button>
+                            <button type="submit" name="action" value="ConfirmDelete" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     }
-</div> *@
+
+</div>
+
+<!-- Include Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
