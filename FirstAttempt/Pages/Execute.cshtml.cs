@@ -189,14 +189,17 @@ namespace FirstAttempt.Pages
                 }
             };
 
-            // Set Selected Recipe
-            SelectedRecipeId = recipeId ?? AvailableRecipes.First().Id;
-            Recipe = AvailableRecipes.First(r => r.Id == SelectedRecipeId);
-
-            // Determine Current Step
-            if (step.HasValue && step > 0 && step <= Recipe.Steps.Count)
+            if (recipeId.HasValue)
             {
-                CurrentStepIndex = step.Value;
+                // Set Selected Recipe
+                SelectedRecipeId = recipeId.Value;
+                Recipe = AvailableRecipes.FirstOrDefault(r => r.Id == SelectedRecipeId);
+
+                // Determine Current Step
+                if (step.HasValue && step > 0 && step <= Recipe?.Steps.Count)
+                {
+                    CurrentStepIndex = step.Value;
+                }
             }
         }
     }
