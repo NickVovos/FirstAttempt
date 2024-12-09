@@ -6,28 +6,12 @@ namespace FirstAttempt.Pages
 {
     public class ManageModel : PageModel
     {
-        public List<SelectListItem> CategoryOptions { get; set; } = new List<SelectListItem>
-{
-    new SelectListItem { Value = "all", Text = "All Categories" },
-    new SelectListItem { Value = "Main", Text = "Main" },
-    new SelectListItem { Value = "Dessert", Text = "Dessert" },
-    new SelectListItem { Value = "Appetizer", Text = "Appetizer" },
-    new SelectListItem { Value = "Beverage", Text = "Beverage" },
-    new SelectListItem { Value = "new", Text = "Add New Category" } // New Item option
-};
+        public List<SelectListItem> CategoryOptions { get; set; } = new List<SelectListItem>();
+
+
         [BindProperty]
         public string NewCategoryName { get; set; } = string.Empty;
 
-        public IActionResult OnPostNewCategory(string? NewCategoryName)
-        {
-            if (!string.IsNullOrWhiteSpace(NewCategoryName))
-            {
-                // Add the new category to the list
-                CategoryOptions.Insert(CategoryOptions.Count - 1, new SelectListItem { Value = NewCategoryName, Text = NewCategoryName });
-                CategoryFilter = NewCategoryName; // Set the newly added category as the selected filter
-            }
-            return Page();
-        }
 
         public List<Recipe> Recipes { get; set; } = new List<Recipe>
         {
@@ -288,10 +272,26 @@ namespace FirstAttempt.Pages
 
         public void OnGet()
         {
+            LoadCategoryOptions();
+        }
+
+
+
+        private void LoadCategoryOptions()
+        {
+            CategoryOptions = new List<SelectListItem>();
+
+            foreach (var item in Recipes.DistinctBy(x=>x.Category))
+            {
+                CategoryOptions.Add(new SelectListItem { Value = item.Category, Text = item.Category });
+            }
         }
 
         public IActionResult OnPost(string? action, int? RecipeId, int? DeleteRecipeId)
         {
+
+            LoadCategoryOptions();
+
             switch (action)
             {
                 case "View":

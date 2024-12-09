@@ -23,18 +23,18 @@
                    style="background-color:white;"
                    name="SearchTerm"
                    class="form-control col-md-4 mr-2"
-                   placeholder="Search recipes by title, ingredient, or description..."
+                   placeholder="Search recipes by title or description..." 
                    value="@Model.SearchTerm" />
 
-            <select name="CategoryFilter"
+            <select id="CategoryFilter"
+                    name="CategoryFilter"
                     class="form-control col-md-3"
-                    value="@Model.CategoryFilter"
                     style="background-color:white;">
-                <option value="all">All Categories</option>
-                <option value="Main">Main</option>
-                <option value="Dessert">Dessert</option>
-                <option value="Appetizer">Appetizer</option>
-                <option value="Beverage">Beverage</option>
+                <option value="">All Categories</option>
+                @foreach (var category in Model.CategoryOptions)
+                {
+                    <option value="@category.Value">@category.Text</option>
+                }
             </select>
 
             <button type="submit" class="btn btn-warning col-md-2">Filter Recipes</button>
