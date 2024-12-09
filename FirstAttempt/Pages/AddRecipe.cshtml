@@ -1,0 +1,115 @@
+﻿@page
+@model AddRecipeModel
+
+<h2 class="text-center mt-3">Add Recipe</h2>
+
+<div class="container mt-4">
+    <form method="post" enctype="multipart/form-data">
+        <!-- Recipe Details Section -->
+        <div class="card shadow-sm p-4 mb-4">
+            <h4 class="card-title">Recipe Details</h4>
+            <div class="form-group mt-3">
+                <label for="Title">Title</label>
+                <input type="text" id="Title" name="Recipe.Title" class="form-control" placeholder="Enter recipe title" required />
+            </div>
+            <div class="form-group mt-3">
+                <label for="Category">Category</label>
+                <select id="Category" name="Recipe.Category" class="form-control" required>
+                    <option value="" disabled selected>Select a category</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category">@category</option>
+                    }
+                    <option value="add-new-category">Add New Category</option>
+                </select>
+                <input type="text" id="NewCategory" name="NewCategory" class="form-control mt-2 d-none"
+                       placeholder="Enter new category" />
+            </div>
+            <!-- Description -->
+            <div class="form-group mt-3">
+                <label for="Description">Description</label>
+                <textarea id="Description" name="Recipe.Description" class="form-control description-scroll"
+                          placeholder="Enter recipe description" required></textarea>
+            </div>
+        </div>
+
+        <!-- Steps Section with Scroll -->
+        <div class="card shadow-sm p-4">
+            <h4 class="card-title">Steps</h4>
+            <div id="steps-container" class="steps-scroll mt-3">
+                <p class="text-muted">Add steps for your recipe below. Scroll here if steps overflow.</p>
+            </div>
+            <button type="button" class="btn btn-outline-warning mt-3" onclick="addStep()">+ Add Step</button>
+        </div>
+
+        <button type="submit" class="btn btn-warning mt-4">Submit Recipe</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        let stepCount = 0;
+
+        // Add a new step dynamically
+        function addStep() {
+            const container = document.getElementById('steps-container');
+            const stepHtml = `
+                <div class="card mt-3 shadow-sm step">
+                    <div class="card-body">
+                        <h5 class="card-title">Step ${stepCount + 1}</h5>
+                        <div class="form-group">
+                            <label for="Steps[${stepCount}].Title">Title</label>
+                            <input type="text" name="Recipe.Steps[${stepCount}].Title" class="form-control" placeholder="Enter step title" required />
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="Steps[${stepCount}].Description">Description</label>
+                            <textarea name="Recipe.Steps[${stepCount}].Description" class="form-control description-scroll"
+                                      placeholder="Enter step description"></textarea>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="Steps[${stepCount}].Duration">Duration (mins)</label>
+                            <input type="number" name="Recipe.Steps[${stepCount}].Duration" class="form-control" placeholder="Enter duration in minutes" />
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="Steps[${stepCount}].Images">Step Images</label>
+                            <input type="file" name="StepImages[${stepCount}]" class="form-control" multiple />
+                        </div>
+                    </div>
+                </div>`;
+            container.insertAdjacentHTML('beforeend', stepHtml);
+            stepCount++;
+        }
+    </script>
+}
+
+<style>
+    /* Scrollable steps container */
+    .steps-scroll {
+        max-height: 450px; /* Limit the visible space */
+        overflow-y: auto; /* Allow vertical scrolling only */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Scrollable description box */
+    .description-scroll {
+        max-height: 150px;
+        overflow-y: auto;
+        resize: none;
+        transition: border-color 0.3s ease;
+    }
+
+    /* Styling for hover/active interactions */
+    .form-control:active,
+    .form-control:hover {
+        border-color: #ffc107;
+        background-color: #fff7e6;
+    }
+
+    .form-control:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 5px rgba(255, 193, 7, 0.75);
+    }
+</style>
