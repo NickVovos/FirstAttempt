@@ -50,13 +50,14 @@
     <script>
         let stepCount = 0;
 
-        // Add a new step dynamically
+        // Add a new step dynamically           <h5 class="card-title">Step ${stepCount + 1}</h5>
         function addStep() {
             const container = document.getElementById('steps-container');
+            const stepId = `step-${stepCount}`;
             const stepHtml = `
-                <div class="card mt-3 shadow-sm step">
+                <div class="card mt-3 shadow-sm step" id="${stepId}">
                     <div class="card-body">
-                        <h5 class="card-title">Step ${stepCount + 1}</h5>
+              
                         <div class="form-group">
                             <label for="Steps[${stepCount}].Title">Title</label>
                             <input type="text" name="Recipe.Steps[${stepCount}].Title" class="form-control" placeholder="Enter step title" required />
@@ -74,10 +75,19 @@
                             <label for="Steps[${stepCount}].Images">Step Images</label>
                             <input type="file" name="StepImages[${stepCount}]" class="form-control" multiple />
                         </div>
+                        <button type="button" class="btn btn-danger mt-3" onclick="removeStep('${stepId}')">Remove Step</button>
                     </div>
                 </div>`;
             container.insertAdjacentHTML('beforeend', stepHtml);
             stepCount++;
+        }
+
+        // Remove a step dynamically
+        function removeStep(stepId) {
+            const stepElement = document.getElementById(stepId);
+            if (stepElement) {
+                stepElement.remove();
+            }
         }
     </script>
 }
