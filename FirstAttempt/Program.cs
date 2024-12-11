@@ -1,7 +1,11 @@
+using FirstAttempt;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddSingleton<RecipeService>(); // Or AddScoped/Transient depending on your needs
 
 var app = builder.Build();
 
